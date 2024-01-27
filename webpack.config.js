@@ -17,11 +17,12 @@ module.exports = (env) => {
         output: {
             path: path.resolve(__dirname, 'build'),
             filename: '[name].[contenthash].js',
-            clean: true
+            clean: true,
+            assetModuleFilename: "assets/[name][ext]"
         },
         plugins: [
             new HtmlWebpackPlugin({
-                template: path.resolve(__dirname, 'src', 'index.html'),
+                template: path.resolve(__dirname,'src', 'public', 'index.html'),
             }),
             new MiniCssExtractPlugin()
         ],
@@ -35,6 +36,17 @@ module.exports = (env) => {
                     test: /\.(c|sa|sc)ss$/i,
                     use: [isDev ? "style-loader" : MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
                 },
+                {
+                    test: /\.woff2?$/i,
+                    type: "asset/resource",
+                    generator: {
+                        filename: 'fonts/[name].[ext]'
+                    }
+                },
+                {
+                    test: /\.(jpe?g|png|webp|gif|svg)$/i,
+                    type: "asset/resource"
+                }
             ]
         }
     }
